@@ -1,0 +1,7 @@
+*.db
+*.csv
+*.pdf
+*.pyc
+/Database/Old Creator
+/Database/DB Backups
+

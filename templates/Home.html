@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SHARC Data Hub</title>
+    <!-- Changed -->
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant:400,600&amp;display=swap">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/Articles-Cards-images.css') }}">
+
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.min.js"></script> -->
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/js/Leaflet/leaflet.css') }}"/>
+    <script src="{{ url_for('static',filename='assets/js/Leaflet/leaflet.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/Leaflet/proj4.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/Leaflet/proj4leaflet.min.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/js/Leaflet.Graticule.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/sweetalert2@11') }}"></script>  
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #map {
+        flex: 1;
+        min-height: 74vh; /* Adjust this value as needed for a minimum height */
+    }
+
+    #dataset-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    height: 20vh;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.dataset-block {
+    flex: 0 0 auto;
+    width: 200px;
+    height: calc(100% - 20px); /* Adjust for padding */
+    margin-right: 10px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dataset-block h4 {
+    margin-top: 0;
+}
+
+.dataset-block button {
+    display: block;
+    margin-top: 10px;
+}
+
+
+.dataset-block .button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;
+}
+
+.dataset-block .btn {
+    font-size: 0.8rem;
+    padding: 0.375rem 0.75rem;
+}
+
+    </style>
+
+    <!-- End Changed -->
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(0, 36, 58);">
+            <!-- Changed -->
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#"><img width="45" height="66" src="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+            <!-- End Changed -->
+                    <div class="sidebar-brand-text mx-3"><span class="fs-5" style="font-family: Assistant, sans-serif;">SHARC <br><span style="font-weight: normal !important;">Data Hub</span></span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <!-- Changed -->
+                    <li class="nav-item"><a class="nav-link active" href="/" style="color: #ffffff;"><i class="fas fa-globe-africa"></i><span>Home</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datasearch" style="color: #ffffff;"><i class="fas fa-search"></i><span>Datasets</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expedition/view" style="color: #ffffff;"><i class="fas fa-map-marked"></i><span >Expeditions</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datasourceadmin" style="color: #ffffff;"><i class="far fa-life-ring"></i><span>Data Source Manager</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datamanager" style="color: #ffffff;"><i class="fas fa-table"></i><span>Dataset Manager</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expeditioneditor/view" style="color: #ffffff;"><i class="fas fa-map-marked-alt"></i><span>Expedition Manager</span></a></li>
+                    <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/admintools" style="color: #ffffff;"><i class="fas fa-database"></i><span>Administrator Tools</span></a></li>
+                     <!-- Changed -->   
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button" style="color: rgb(0, 36, 58);"><i class="fas fa-bars" style="border-color: var(--bs-btn-hover-color);"></i></button>
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 36,;border-bottom-color: 58);border-left-color: 36,;"><i class="fas fa-search"></i></button></div>
+                        </form>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" data-bs-popper="none" aria-labelledby="searchDropdown">
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <!-- Changed -->
+                            {% if Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{ Username }} </span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="/profile"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="/profile"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="/profile"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if not Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false"  href="/login"><span class="d-none d-lg-inline me-2 text-gray-600 small">Login</span></a>
+                                </div>
+                            </li>
+                            {% endif %}
+                            <!-- Changed -->
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- <div class="col">  -->
+                            <div class="card"> 
+                                <!-- Changed -->
+                                <div class="card-body"> 
+                                <!-- <img class="img-fluid" src="{{ url_for('static',filename='assets/img/Antarctica_AMO_2009027_lrg.jpg') }}"> -->
+                           
+                                <!-- <button id="addMarker" style="margin-top: 10px;">Add Random Marker</button>
+                                <button id="addArea" style="margin-top: 10px; margin-left: 10px;">Add Highlighted Area</button> -->
+                                <h2 class="text-center" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>Data Source Map</strong></h2>
+                                <div id="map"></div>
+
+                                </div>
+                                </div>
+                                <div class="card" style="margin-top: 20px;"> 
+                                    <!-- Changed -->
+                                    <div class="card-body"> 
+                                <h2 class="text-center" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>Data Source Datasets</strong></h2>
+                                <div id="dataset-container"></div>
+                                </div> 
+                                
+                            </div> 
+                        <!-- </div> -->
+                    </div>
+                    
+                    <div class="row">
+                        
+                        <div class="col flex-shrink-1"></div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer" style="background: rgb(106,106,106);height: 80px;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"></div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center d-xxl-flex justify-content-xxl-center align-items-xxl-center"><span>Copyright © Matt Pettit 2024</span></div>
+                        <div class="col-md-4 d-xxl-flex align-self-center justify-content-xxl-center"></div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Changed -->
+    <script src="{{ url_for('static',filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/theme.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/searchbar.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/Home.js') }}"></script>
+    <script>
+        if (window.matchMedia("(max-width: 767px)").matches) {
+        const sidebar = document.getElementById("sidebar");
+        document.body.classList.toggle('sidebar-toggled');
+        sidebar.classList.toggle('toggled');
+        }
+    </script>
+
+    <!-- End Changed -->
+   
+</body>
+
+
+
+</html>

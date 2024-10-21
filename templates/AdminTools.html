@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SHARC Data Hub</title>
+    <!-- Changed -->
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant:400,600&amp;display=swap">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/Articles-Cards-images.css') }}">
+    
+    <script src="{{ url_for('static',filename='assets/js/sweetalert2@11') }}"></script>  
+
+    <!-- End Changed -->
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(0, 36, 58);">
+            <!-- Changed -->
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#"><img width="45" height="66" src="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+                <!-- End Changed -->
+                    <div class="sidebar-brand-text mx-3"><span class="fs-5" style="font-family: Assistant, sans-serif;">SHARC <br><span style="font-weight: normal !important;">Data Hub</span></span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                       <!-- Changed -->
+                       <li class="nav-item"><a class="nav-link" href="/" style="color: #ffffff;"><i class="fas fa-globe-africa"></i><span>Home</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datasearch" style="color: #ffffff;"><i class="fas fa-search"></i><span>Datasets</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expedition/view" style="color: #ffffff;"><i class="fas fa-map-marked"></i><span >Expeditions</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datasourceadmin" style="color: #ffffff;"><i class="far fa-life-ring"></i><span>Data Source Manager</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datamanager" style="color: #ffffff;"><i class="fas fa-table"></i><span>Dataset Manager</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expeditioneditor/view" style="color: #ffffff;"><i class="fas fa-map-marked-alt"></i><span>Expedition Manager</span></a></li>
+                       <li class="nav-item" style="color: #ffffff;"><a class="nav-link active" href="/admintools" style="color: #ffffff;"><i class="fas fa-database"></i><span>Administrator Tools</span></a></li>
+                       <!-- Changed -->  
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button" style="color: rgb(0, 36, 58);"><i class="fas fa-bars" style="border-color: var(--bs-btn-hover-color);"></i></button>
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 36,;border-bottom-color: 58);border-left-color: 36,;"><i class="fas fa-search"></i></button></div>
+                        </form>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" data-bs-popper="none" aria-labelledby="searchDropdown">
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            {% if Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{ Username }} </span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="/profile"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="/profile"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="/profile"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if not Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false"  href="/login"><span class="d-none d-lg-inline me-2 text-gray-600 small">Login</span></a>
+                                </div>
+                            </li>
+                            {% endif %}
+                            <!-- Changed -->
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="row" style="padding-bottom: 20px;padding-top: 0px;">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h2 class="text-center" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>Administrator Tools</strong></h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"></div>
+                                        <div class="col-7">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div>
+                                                        <ul class="nav nav-tabs" role="tablist">
+                                                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-1" style="color: rgb(0,0,0);">User Management</a></li>
+                                                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2" style="color: rgb(0,0,0);">Dataset Management</a></li>
+                                                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3" style="color: rgb(0,0,0);">Encoder/Decoder Management</a></li>
+                                                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4" style="color: rgb(0,0,0);">Activity Log</a></li>
+                                                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-5" style="color: rgb(0,0,0);">System Backup</a></li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane" role="tabpanel" id="tab-1">
+                                                                <div class="row d-xxl-flex justify-content-xxl-center">
+                                                                    <div class="col-12">
+                                                                        <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;margin-top: 14px;"><strong>User Management</strong></h3>
+                                                                        <form><label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);"><strong>User Role Change:</strong></label>
+                                                                            <!-- <input name="userfilter" id="userfilter" class="form-control" type="text" placeholder="Filter users"> -->
+                                                                            <select name="userselect" id="userselect" class="form-select" style="margin-top: 0px;">
+                                                                                <optgroup label="Users">
+                                                                                    {% for user in users %}
+                                                                                    <option value="{{ user["UserUUID"] }}" selected="">{{ user["Username"] }}</option>
+                                                                                    {% endfor %}
+                                                                                </optgroup>
+                                                                            </select></form>
+                                                                        <form>
+                                                                            <!-- <label class="form-label" style="margin-top: 14px;color: rgb(0,0,0);"><strong>Role:</strong></label> -->
+                                                                            <select name="roleselect" id="roleselect" class="form-select" style="margin-top:14px;">
+                                                                                <optgroup label="Role">
+                                                                                    <option value="Public" selected="">Public</option>
+                                                                                    <option value="Researcher">Researcher</option>
+                                                                                    <option value="Administrator">Administrator</option>
+                                                                                </optgroup>
+                                                                            </select><button class="btn btn-primary" type="button" name="savechangesBtn" id="savechangesBtn" style="background: rgb(0,0,0);border-color: rgb(0,0,0);margin-top: 14px;">Change Role</button></form>
+                                                                            
+                                                                        <form>
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 14px;"><strong>User Password Change:</strong></label>
+                                                                            <!-- <input name="userfilter2" id="userfilter2" class="form-control" type="text" placeholder="Filter users"> -->
+                                                                            <select name="userselect2" id="userselect2" class="form-select" style="margin-top: 0px;">
+                                                                                <optgroup label="Users">
+                                                                                    {% for user in users %}
+                                                                                    <option value="{{ user["UserUUID"] }}" selected="">{{ user["Username"] }}</option>
+                                                                                    {% endfor %}
+                                                                                </optgroup>
+                                                                            </select>
+                                                                            <input name="newpassword" id="newpassword" class="form-control" type="text" placeholder="New Password" style="margin-top: 14px;">
+                                                                            <button class="btn btn-primary" type="button" name="changePasswd" id="changePasswd" style="background: rgb(0,0,0);border-color: rgb(0,0,0);margin-top: 14px;">Change Password</button></form>
+                                                                            
+                                                                        </form>
+
+
+                                                                        <form>
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 14px;"><strong>User Creation:</strong></label>
+                                                                            <input name="username" id="username" class="form-control" type="text" placeholder="Username">
+                                                                            <input name="password" id="password" class="form-control" type="text" placeholder="Password" style="margin-top: 14px;">
+                                                                            <button class="btn btn-primary" type="button" name="adduserbtn" id="adduserbtn" style="background: rgb(0,0,0);border-color: rgb(0,0,0);margin-top: 14px;">Add New User</button></form>
+                                                                            
+                                                                        </form>
+
+                                                                        <form>
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 14px;"><strong>User Deletion:</strong></label>
+                                                                            <select name="userselect3" id="userselect3" class="form-select" style="margin-top: 0px;">
+                                                                                <optgroup label="Users">
+                                                                                    {% for user in users %}
+                                                                                    <option value="{{ user["UserUUID"] }}" selected="">{{ user["Username"] }}</option>
+                                                                                    {% endfor %}
+                                                                                </optgroup>
+                                                                            </select>
+                                                                            <button class="btn btn-danger" type="button" name="userdelbtn" id="userdelbtn" style="margin-top: 14px;">Delete User</button></form>
+                                                                            
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" role="tabpanel" id="tab-2">
+                                                                <div class="row d-xxl-flex justify-content-xxl-center">
+                                                                    <div class="col-12">
+                                                                        <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;margin-top: 14px;"><strong>Dataset Management</strong></h3>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Dataset Name</th>
+                                                                                        <!-- <th>Dataset Contributors</th> -->
+                                                                                        <th>View Dataset</th>
+                                                                                        <th>Dataset Approval</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {% for dataset in datasets %}
+                                                                                    <tr>
+                                                                                        <td> {{ dataset["DatasetName"]}}</td>
+                                                                                        <!-- <td>{% for user in dataset["DatasetContributors"] %} {{ user }} {% endfor %}</td> -->
+                                                                                        <td><a href="/datadownload/{{ dataset["DatasetUUID"] }}" class="btn btn-primary" type="button" style="width:110px;background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 36,;border-bottom-color: 58);border-left-color: 36,;">View</a></td>
+                                                                                        {% if dataset["DatasetApproved"] %}
+                                                                                        <td><button onclick="toggleDatasetApproval('{{ dataset["DatasetUUID"] }}')" class="btn btn-danger" type="button" style="width:110px;">Unapprove</button></td>
+                                                                                        {% else %}
+                                                                                        <td><button onclick="toggleDatasetApproval('{{ dataset["DatasetUUID"] }}')" class="btn btn-success" type="button" style="width:110px;">Approve</button></td>
+                                                                                        {% endif %}
+                                                                                    </tr>
+                                                                                    {% endfor %}    
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>  
+                                                            <div class="tab-pane" role="tabpanel" id="tab-3">
+                                                                <div class="row d-xxl-flex justify-content-xxl-center">
+                                                                    <div class="col-12">
+                                                                        <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;margin-top: 14px;"><strong>Encoder/Decoder Management</strong></h3>
+                                                                    <div class="alert alert-danger" role="alert">
+                                                                        Please be aware that the files uploaded can be executed on the system. Only trusted programs should be uploaded.
+                                                                      </div>   
+                                                                    <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 9px;"><strong>Encoder Files:</strong><br></label>
+                                                                                                                                     
+                                                                    <div class="table-responsive">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Filename</th>
+                                                                                    <th class="text-center">Remove</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for file in encoders %}
+                                                                                <tr>
+                                                                                    <td> {{ file }}</td>
+                                                                                    <td style="text-align: center;"><a onclick="confirmDeleteFile('Encoder','{{ file }}'); return false;"><i class="fas fa-times" style="font-size: 24px;color: var(--bs-danger);"></i></a></td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 9px;"><strong>Upload Encoder File:</strong><br></label>
+                                                                    <form><input class="form-control" type="file" id="EncoderUpload" multiple  ><button onclick="uploadEncoderDecoder('Encoder')" class="btn btn-primary" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 154,;border-bottom-color: 218);border-left-color: 154,;margin-top: 15px;">Upload Encoder File</button></form>
+                                                                
+                                                                    <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 9px;"><strong>Decoder Files:</strong><br></label>
+                                                                    <div class="table-responsive">
+                                                                        <table class="table">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Filename</th>
+                                                                                    <th class="text-center">Remove</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                {% for file in decoders %}
+                                                                                <tr>
+                                                                                    <td> {{ file }}</td>
+                                                                                    <td style="text-align: center;"><a onclick="confirmDeleteFile('Decoder','{{ file }}'); return false;"><i class="fas fa-times" style="font-size: 24px;color: var(--bs-danger);"></i></a></td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div><label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 9px;"><strong>Upload Decoder File:</strong><br></label>
+                                                                    <form><input class="form-control" type="file" id="DecoderUpload" multiple  ><button onclick="uploadEncoderDecoder('Decoder')" class="btn btn-primary" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 154,;border-bottom-color: 218);border-left-color: 154,;margin-top: 15px;">Upload Decoder File</button></form>
+                                                                
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" role="tabpanel" id="tab-4">
+                                                                <div class="row d-xxl-flex justify-content-xxl-center">
+                                                                    <div class="col-12">
+                                                                        <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;margin-top: 14px;"><strong>Activity Log</strong></h3>
+                                                                        <div class="table-responsive">
+                                                                            <table class="table">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Activity Time</th>
+                                                                                        <th>Activity Description</th>
+                                                                                        <th>User</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    {% for activity in log %}
+                                                                                    <tr>
+                                                                                        <td>{{ activity.Time}}</td>
+                                                                                        <td>{{ activity.Description}}</td>
+                                                                                        <td>{{ activity.user.UserName}}</td>
+                                                                                        <td></td>
+                                                                                    </tr>
+                                                                                    {% endfor %}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane" role="tabpanel" id="tab-5">
+                                                                <div class="row d-xxl-flex justify-content-xxl-center">
+                                                                    <div class="col-12">
+                                                                        <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;margin-top: 14px;"><strong>Backup and Restoration</strong></h3>
+                                                                        
+                                                                        <!-- Backup Section -->
+                                                                        <div class="mb-4">
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 14px;"><strong>Backup Current System:</strong></label>
+                                                                            <br>
+                                                                            <button id="backupButton" class="btn btn-primary" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);">Download Backup</button>
+                                                                        </div>
+                                                                        
+                                                                        <!-- Restore Section -->
+                                                                        <div class="mb-4">
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 0x;"><strong>Restore System:</strong></label>
+
+                                                                            <form>
+                                                                                <div class="mb-3">
+                                                                                    <input class="form-control" type="file" id="restoreFile">
+                                                                                </div>
+                                                                                <button id="restoreButton" class="btn btn-primary" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);">Restore System</button>
+                                                                            </form>
+                                                                        </div>
+                                                                        
+                                                                        <!-- Read-Only Toggle Section -->
+                                                                        <div>
+                                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 14px;"><strong>System Mode:</strong></label>
+
+                                                                            <div class="form-check form-switch">
+                                                                                <input class="form-check-input" type="checkbox" id="readOnlyToggle">
+                                                                                <label class="form-check-label" for="readOnlyToggle">Read-Only Mode</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer" style="background: rgb(106,106,106);height: 80px;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"></div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center d-xxl-flex justify-content-xxl-center align-items-xxl-center"><span>Copyright © Matt Pettit 2024</span></div>
+                        <div class="col-md-4 d-xxl-flex align-self-center justify-content-xxl-center"></div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Changed -->
+    <script src="{{ url_for('static',filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/theme.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='assets/js/searchbar.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/AdminTools.js') }}"></script>
+    <script>
+        if (window.matchMedia("(max-width: 767px)").matches) {
+        const sidebar = document.getElementById("sidebar");
+        document.body.classList.toggle('sidebar-toggled');
+        sidebar.classList.toggle('toggled');
+        }
+    </script>
+    <!-- End Changed -->
+</body>
+
+</html>

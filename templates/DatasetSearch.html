@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>SHARC Data Hub</title>
+    <!-- Changed -->
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="icon" type="image/svg+xml" sizes="148x150" href="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Assistant:400,600&amp;display=swap">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='assets/css/Articles-Cards-images.css') }}">
+
+    <script src="{{ url_for('static',filename='assets/js/sweetalert2@11') }}"></script>  
+    
+    <!-- End Changed -->
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(0, 36, 58);">
+                        <!-- Changed -->
+                        <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#"><img width="45" height="66" src="{{ url_for('static',filename='assets/img/UCTlogocircularSVG.svg') }}">
+                            <!-- End Changed -->
+                    <div class="sidebar-brand-text mx-3"><span class="fs-5" style="font-family: Assistant, sans-serif;">SHARC <br><span style="font-weight: normal !important;">Data Hub</span></span></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                <!-- Changed -->
+                <li class="nav-item"><a class="nav-link" href="/" style="color: #ffffff;"><i class="fas fa-globe-africa"></i><span>Home</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link active" href="/datasearch" style="color: #ffffff;"><i class="fas fa-search"></i><span>Datasets</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expedition/view" style="color: #ffffff;"><i class="fas fa-map-marked"></i><span >Expeditions</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datasourceadmin" style="color: #ffffff;"><i class="far fa-life-ring"></i><span>Data Source Manager</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/datamanager" style="color: #ffffff;"><i class="fas fa-table"></i><span>Dataset Manager</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/expeditioneditor/view" style="color: #ffffff;"><i class="fas fa-map-marked-alt"></i><span>Expedition Manager</span></a></li>
+                <li class="nav-item" style="color: #ffffff;"><a class="nav-link" href="/admintools" style="color: #ffffff;"><i class="fas fa-database"></i><span>Administrator Tools</span></a></li>
+                <!-- Changed -->  
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button" style="color: rgb(0, 36, 58);"><i class="fas fa-bars" style="border-color: var(--bs-btn-hover-color);"></i></button>
+                        <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);border-top-color: rgb(0,;border-right-color: 36,;border-bottom-color: 58);border-left-color: 36,;"><i class="fas fa-search"></i></button></div>
+                        </form>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" data-bs-popper="none" aria-labelledby="searchDropdown">
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for Datasets">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button" style="background: rgb(0, 36, 58);"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <!-- Changed -->
+                            {% if Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small">{{ Username }} </span></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="/profile"><i class="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Profile</a><a class="dropdown-item" href="/profile"><i class="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Settings</a><a class="dropdown-item" href="/profile"><i class="fas fa-list fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Activity log</a>
+                                        <div class="dropdown-divider"></div><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endif %}
+                            {% if not Logged_in %}
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false"  href="/login"><span class="d-none d-lg-inline me-2 text-gray-600 small">Login</span></a>
+                                </div>
+                            </li>
+                            {% endif %}
+                            <!-- Changed -->
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <div class="row" style="padding-bottom: 20px;padding-top: 0px;">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h2 class="text-center" style="color: rgb(0, 0, 0);font-family: Assistant, sans-serif;"><strong>Search for Datasets</strong></h2>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col d-xxl-flex flex-column flex-grow-1 flex-shrink-0 flex-fill justify-content-center align-items-center align-content-center flex-nowrap align-content-sm-center align-content-md-center align-content-lg-center align-content-xl-center justify-content-xxl-end align-items-xxl-center">
+                                            <div class="row">
+                                                <div class="col-11" >
+                                                     <form method="post" action="{{ url_for('DataSearch') }}"id="formSearch"><input class="bg-light form-control border-0 small" type="text" id="TextSearch" placeholder="Search for Datasets" name="TextSearch"> <!-- </form> -->
+                                                </div>
+                                                <div class="col-1"><button type="submit" class="btn btn-primary" id="SearchBtn" style="background: rgb(0, 36, 58);border-color: rgb(0, 36, 58);">Search</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-auto text-start justify-content-center align-items-center align-content-center justify-content-xxl-start align-items-xxl-center">
+                                            <!-- <div class="row">
+                                                <div class="col d-xxl-flex flex-column flex-grow-1 flex-shrink-0 flex-fill justify-content-center align-items-center align-content-center flex-nowrap align-content-sm-center align-content-md-center align-content-lg-center align-content-xl-center justify-content-xxl-end align-items-xxl-center">
+                                                    <div class="row">
+                                                        <div class="col-11" >
+                                                             <form method="post" action="{{ url_for('DataSearch') }}"id="formSearch"><input class="bg-light form-control border-0 small" type="text" id="TextSearch" placeholder="Search for datasets" name="TextSearch"> <!-- </form> -->
+                                                        <!-- </div>
+                                                        <div class="col-1"><button type="submit" class="btn btn-primary" id="SearchBtn" style="background: rgb(0,0,0);">Search</button></div>
+                                                    </div>
+                                                </div>
+                                            </div> --> 
+                                            <div class="row d-xxl-flex justify-content-xxl-center">
+                                                <div class="col-auto">
+                                                    <div class="card" style="width: 219.672px;margin-top: 12px;">
+                                                        <div class="card-body" style="background: rgb(248,249,252);">
+                                                            <h3 class="card-title" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>Search Filters</strong></h3>
+                                                            <label class="form-label" style="border-color: rgb(0,0,0);color: rgb(0,0,0);margin-top: 6px;"><strong>Time Range:</strong><br></label>
+                                                            <!-- <form id="formOptions"> -->
+                                                            <input class="form-control date" id="StartRange" type="date" style="width: 160px;" name="startdate">
+                                                            <input class="form-control date" id="EndRange" type="date" style="margin-top: 10px;width: 160px;" name="enddate">
+                                                            <!-- <h6 style="color: rgb(0,0,0);margin-top: 10px;">Area of Collection:</h6>
+                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-1"><label class="form-check-label" for="formCheck-1">First Place</label></div>
+                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Second Place</label></div>
+                                                            <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Third Place</label></div>
+                                                            </form> -->
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="row">
+                                                        {% if results|length == 0 %}
+                                                        <div class="col-auto d-flex" style="margin-top: 12px;"><p>No results...</p></div>
+                                                            
+                                                        {% endif %}
+                                                        {% for dataset in results %}
+                                                        <div class="col-auto d-flex" style="margin-top: 12px;">
+                                                            <div class="card" style="width: 343.66px;">
+                                                                <div class="card-body d-flex float-start flex-column ">
+                                                                    <h4 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>{{ dataset['Name'] }}</strong></h4>
+                                                                    <hr>
+                                                                    <p class="card-text" style="color: rgb(0,0,0);">
+                                                                        <strong>Description: </strong><br>{{ dataset['Description'] }}<br>
+                                                                        <strong>Latest Update: </strong><br>{{ dataset['DateAdded'] }}<br>
+                                                                        <strong>Collected By: </strong><br>
+                                                                        {% for datasource in dataset["DataSources"] %}
+                                                                        <span class="badge" style="margin-right: 7px;background: rgb(0, 36, 58);">
+                                                                            {{ datasource["Name"] }}
+                                                                        </span>
+                                                                        {% endfor %}
+                                                                        <br>
+                                                                        
+                                                                    </p>
+                                                                    <div class="mt-auto">
+                                                                        <a class="d-flex justify-content-end" href="/datadownload/{{ dataset['UUID'] }}">
+                                                                            <i class="fas fa-download" style="border-color: rgb(0,0,0);color: rgb(0,0,0);"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer" style="background: rgb(106,106,106);height: 80px;">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"></div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center d-xxl-flex justify-content-xxl-center align-items-xxl-center"><span>Copyright © Matt Pettit 2024</span></div>
+                        <div class="col-md-4 d-xxl-flex align-self-center justify-content-xxl-center"></div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Changed -->
+    <script src="{{ url_for('static',filename='assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/theme.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/searchbar.js') }}"></script>
+    <script src="{{ url_for('static',filename='assets/js/DataSearch.js') }}"></script>
+    <script>
+        if (window.matchMedia("(max-width: 767px)").matches) {
+        const sidebar = document.getElementById("sidebar");
+        document.body.classList.toggle('sidebar-toggled');
+        sidebar.classList.toggle('toggled');
+        }
+    </script>
+
+
+    <!-- End Changed -->
+</body>
+
+</html>
