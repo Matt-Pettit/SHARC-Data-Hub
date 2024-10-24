@@ -220,19 +220,19 @@ def get_map_data():
 #################################
 @api_bp.route('/dataset/downloadfile', methods=['POST'])
 def download_dataset_file():
-    print('Here')
+    #print('Here')
     data = request.json
     dataset_id = data.get('dataset_id')
     filename = data.get('filename')
     if not dataset_id or not filename:
-        print("Dataset ID and filename are required")
+        #print("Dataset ID and filename are required")
         return jsonify({"success": False, "message": "Dataset ID and filename are required"}), 400
     # Need to Sanitize the filename to prevent directory traversal attacks
     filename = filename
     # Construct the full path to the file
     file_path = os.path.join('uploads', 'Datasets', dataset_id, filename)
     # Check if the file exists
-    print(file_path)
+    #print(file_path)
     if not os.path.isfile(file_path):
         abort(404)  # Not found if the file doesn't exist
     # Check if the file is within the allowed dataset directory
@@ -244,6 +244,28 @@ def download_dataset_file():
     except Exception as e:
         return jsonify({"success": False, "message": "Error downloading file"}), 500
 
+
+## Alternative for images
+@api_bp.route('/datasetimage/<dataset_id>/<filename>', methods=['GET'])
+def download_dataset_image_file(dataset_id,filename):
+    if not dataset_id or not filename:
+        return jsonify({"success": False, "message": "Dataset ID and filename are required"}), 400
+    # Need to Sanitize the filename to prevent directory traversal attacks
+    filename = filename
+    # Construct the full path to the file
+    file_path = os.path.join('uploads', 'Datasets', dataset_id, filename)
+    # Check if the file exists
+    if not os.path.isfile(file_path):
+        abort(404)  # Not found if the file doesn't exist
+    # Check if the file is within the allowed dataset directory
+    if not os.path.realpath(file_path).startswith(os.path.realpath(os.path.join('uploads', 'Datasets', dataset_id))):
+        abort(403)  # Forbidden if trying to access files outside the dataset directory
+    try:
+        # Send the file securely
+        return send_file(file_path, as_attachment=True)
+    except Exception as e:
+        application.logger.error(f"Error downloading file: {str(e)}")
+        return jsonify({"success": False, "message": "Error downloading file"}), 500
 
 
 
@@ -324,7 +346,7 @@ def datasource_upload_image():
     if not check_datasource_ownership(sensorUUID,session["useruuid"]):
         return jsonify({"success": False, "message": "Permission Denied"}), 400
 
-    print(allowed_file(file.filename))
+    #print(allowed_file(file.filename))
     if file:
         filename = file.filename
         file.save(os.path.join('uploads', filename))
@@ -544,7 +566,7 @@ def datasource_remove_user():
 @login_required
 @roles_required("Researcher")
 def upload_from_data_source():
-    print("Here")
+    #print("Here")
     # Get the file, options file (if provided), and decoder
     file = request.files.get('file')
     options_file = request.files.get('options_file')
@@ -885,7 +907,7 @@ def expedition_remove_user():
     userUUID = data.get('userUUID')
 
     if check_expedition_ownership(expeditionUUID, session["useruuid"]):
-        print("Removing", userUUID)
+        #print("Removing", userUUID)
         success = True
         if success:
             return jsonify({"success": True, "message": "User removed successfully"}), 200
@@ -952,11 +974,11 @@ def save_drawn_items():
 
 @api_bp.route('/expedition/load_drawn_items', methods=['POST'])
 def load_drawn_items():
-    print("Here")
-    print(request.json)
+    #("Here")
+    #print(request.json)
     expedition_uuid = request.json.get('expeditionUuid')
-    print(expedition_uuid)
-    print("===")
+    #print(expedition_uuid)
+    #print("===")
     if not expedition_uuid:
         return jsonify({"success": False, "message": "Missing expedition UUID"}), 400
     
@@ -1031,7 +1053,7 @@ def expedition_upload_file():
                     #     "type": "FeatureCollection",
                     #     "features": geojson_data
                     # }
-                    print('====Here===')
+                    #print('====Here===')
                 except ExpatError:
                     return jsonify({'error': 'Invalid KML file'}), 400
 
@@ -1049,7 +1071,7 @@ def expedition_upload_file():
                     return jsonify({'error': 'Invalid GeoJSON file'}), 400
             else:
                 return jsonify({'error': 'Unsupported file type. Please upload KML or GeoJSON files.'}), 400
-            print("Combining")
+            #print("Combining")
             # Combine with existing expedition JSON file
             expedition_file = f'Expeditions/{expedition_uuid}.json'
             if os.path.exists(expedition_file):

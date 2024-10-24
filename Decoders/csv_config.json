@@ -1,0 +1,9 @@
+{
+    "device_name": null,
+    "device_column": "Device",
+    "datetime_column": "Timestamp",
+    "datetime_format": "%Y-%m-%d %H:%M:%S",
+    "latitude_column": "Latitude",
+    "longitude_column": "Longitude",
+    "status": "active"
+}

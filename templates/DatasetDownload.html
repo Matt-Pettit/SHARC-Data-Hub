@@ -146,9 +146,9 @@
                                             {% if hasImages %}
                                             <div class="card" style="margin-top: 20px;">
                                                 <div class="card-body" style="text-align: center;">
-                                                    <h3 style="color: rgb(0,0,0);text-align: left;">Dataset Images</h3>
+                                                    <h3 class="text" style="color: rgb(0,0,0);font-family: Assistant, sans-serif;"><strong>Dataset Images</strong></h3>
                                                     {% for Image in Images %}
-                                                    <figure class="figure"><img class="img-fluid figure-img" src="/api/datadownload/{{Image[0]}}/{{ Image[1] }}" width="584" >
+                                                    <figure class="figure"><img class="img-fluid figure-img" src="/api/datasetimage/{{Image[0]}}/{{ Image[1] }}" width="584" >
                                                         <figcaption class="figure-caption">{{ Image[1] }} </figcaption>
                                                     </figure>
                                                     {% endfor %}

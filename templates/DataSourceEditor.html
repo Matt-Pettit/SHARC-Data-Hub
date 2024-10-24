@@ -204,7 +204,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {% for timelocation in datasource['Locations'] %}
+                                                                {% for timelocation in sorted_locations %}
                                                                 <tr>
                                                                     <td>{{ timelocation["DateTime"] }}</td>
                                                                     <td>{{ timelocation["Location"] }}</td>

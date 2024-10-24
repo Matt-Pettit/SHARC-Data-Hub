@@ -17,7 +17,7 @@ from json.decoder import JSONDecodeError
 application = Flask(__name__)
 
 #application config settings regarding flask stuff 
-application.config['SECRET_KEY'] = ''
+application.config['SECRET_KEY'] = '\x1b\xc0\xc6\x08|\xe1\xa2\x0e\xe7\xee,7AW5k\x17c}1\xbf\x96q\r'
 application.config['BASIC_AUTH_FORCE'] = True
 SESSION_TYPE = 'filesystem'
 application.config.from_object(__name__)
@@ -417,11 +417,15 @@ def DatasourceEditor(datasource):
     except IndexError:
         flash("Sensor not found or you don't have permission to access it.", "error")
         return redirect(url_for('DatasourceAdmin'))
+
+    sorted_locations = sorted(result['Locations'], key=lambda x: x['DateTime'])
+    sorted_locations.reverse()
     users = SHARCFunctions.getusers()
     return render_template('DataSourceEditor.html',
                            Logged_in=session.get('logged_in'),
                            Username=session.get('username'),
                            datasource=result,
+                           sorted_locations = sorted_locations,
                            all_users=users)
 
 
